@@ -32,6 +32,7 @@ function layout() {
 $(document).on("ready", function(e) {
 	$(".coin").draggable({
 		stack: ".coin",
+		containment: "parent"
 	});
 
 	$(".dish").droppable({
