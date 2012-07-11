@@ -46,7 +46,19 @@ function layout() {
 						"class": "coin",
 					});
 
-					coin.attr("data-value", COIN_VALUES[i]).appendTo("#left");
+					coin.attr("data-value", COIN_VALUES[i]);
+					coin.appendTo("#left");
+					coin.draggable({
+						stack: ".coin",
+						containment: "parent",
+						drag: function(event, ui) {
+							$(this).addClass("darkshadow");
+						},
+						stop: function(event, ui) {
+							$(this).removeClass("darkshadow");
+							refresh();
+						}
+					});
 				}
 			}
 
@@ -63,16 +75,4 @@ function layout() {
 
 $(document).on("ready", function(e) {
 	layout();
-
-	$(".coin").draggable({
-		stack: ".coin",
-		containment: "parent",
-		drag: function(event, ui) {
-			$(this).addClass("darkshadow");
-		},
-		stop: function(event, ui) {
-			$(this).removeClass("darkshadow");
-			refresh();
-		}
-	});
 });
