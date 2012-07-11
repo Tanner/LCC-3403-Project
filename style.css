@@ -37,17 +37,25 @@ body {
 }
 
 .coin {
-	width: 70px;
-	height: 70px;
-	border-radius: 35px;
-	background: yellow;
-	border: 2px solid #999;
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
+	background: #888888;
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 #dish {
-	width: 200px;
-	height: 200px;
-	border-radius: 100px;
-	background: gray;
+	width: 250px;
+	height: 250px;
+	border-radius: 150px;
+	background: #e3db66;
+	border: 20px solid #e3c266;
+}
 
+.lightshadow {
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.darkshadow {
+	-webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
