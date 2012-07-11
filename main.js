@@ -42,35 +42,46 @@ function layout() {
 
 			for (var i = 0; i < COIN_VALUES.length; i++) {
 				for (var j = 0; j < START_COIN_QUANTITY; j++) {
-					var coin = $("<div>", {
-						"class": "coin",
+					var coin = createCoin(COIN_VALUES[i]);
+					var stack = $("#dish");
+
+					$(".stack").each(function() {
+						if (parseInt($(this).attr("data-value")) == COIN_VALUES[i]) {
+							stack = $(this);
+							return;
+						}
 					});
 
-					coin.attr("data-value", COIN_VALUES[i]);
-					coin.appendTo("#left");
-					coin.draggable({
-						stack: ".coin",
-						containment: "parent",
-						drag: function(event, ui) {
-							$(this).addClass("darkshadow");
-						},
-						stop: function(event, ui) {
-							$(this).removeClass("darkshadow");
-							refresh();
-						}
+					coin.position({
+						of: stack,
+						my: "center center",
+						at: "center center"
 					});
 				}
 			}
-
-			// for (var i = 0; i < $(".coin").length; i++) {
-			// 	$(".coin").eq(i).position({
-			// 		of: $("#left"),
-			// 		my: "left bottom",
-			// 		at: "left bottom",
-			// 		offset: ((i + 1) * ($(".coin").width() + COIN_PADDING)) - $(".coin").width() + " -" + COIN_PADDING,
-			// 	});
-			// }
 	}
+}
+
+function createCoin(value) {
+	var coin = $("<div>", {
+		"class": "coin",
+	});
+
+	coin.attr("data-value", value);
+	coin.appendTo("#left");
+	coin.draggable({
+		stack: ".coin",
+		containment: "parent",
+		drag: function(event, ui) {
+			$(this).addClass("darkshadow");
+		},
+		stop: function(event, ui) {
+			$(this).removeClass("darkshadow");
+			refresh();
+		}
+	});
+
+	return coin;
 }
 
 $(document).on("ready", function(e) {

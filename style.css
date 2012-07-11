@@ -55,6 +55,25 @@ body {
 	border: 20px solid #e3c266;
 }
 
+.stack {
+	width: 80px;
+	height: 80px;
+
+	border: 5px solid #888;
+}
+
+.stack#five {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.stack#two {
+	position: absolute;
+	bottom: 0;
+	left: 95px;
+}
+
 .lightshadow {
 	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
