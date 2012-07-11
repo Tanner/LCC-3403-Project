@@ -6,3 +6,48 @@
 body {
 	background: #ddd;
 }
+
+#wrapper {
+	width: 960px;
+	height: 480px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -240px 0 0 -480px;
+}
+
+#main {
+	width: 960px;
+	height: 480px;
+	background: #fff;
+	border: 1px solid #bbb;
+}
+
+#right {
+	float: right;
+	width: 299px;
+	height: 480px;
+	background: #ccc;
+	border-left: 1px solid #bbb;
+}
+
+#left {
+	width: 660px;
+	height: 480px;
+}
+
+.coin {
+	width: 70px;
+	height: 70px;
+	border-radius: 35px;
+	background: yellow;
+	border: 2px solid #999;
+}
+
+#dish {
+	width: 200px;
+	height: 200px;
+	border-radius: 100px;
+	background: gray;
+
+}
