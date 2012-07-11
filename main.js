@@ -30,18 +30,10 @@ function layout() {
 }
 
 $(document).on("ready", function(e) {
-	$(".coin").draggable( {
-		start: function() {
-			var coinMoved = $(this).index();
-			$(".coin").each(function(e) {
-				if ($(this).index() == coinMoved) {
-					$(this).css("z-index", 9999);
-				} else if ($(this).css("z-index") > 0){
-					$(this).css("z-index", $(this).css("z-index") - 1);
-				}
-			});
-		}
+	$(".coin").draggable({
+		stack: ".coin",
 	});
+
 	$(".dish").droppable({
 		drop: function() {
 			refresh();
