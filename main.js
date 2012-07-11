@@ -14,7 +14,7 @@ var coinsInDish = 0;
 function refresh() {
 	var coins = numberOfCoinsInDish();
 	if (coins != coinsInDish) {
-		alert(coins + " coin" + (coins != 1 ? "s" : "") + " in the dish");
+		console.log(coins + " coin" + (coins != 1 ? "s" : "") + " in the dish");
 		coinsInDish = coins;
 	}
 }
