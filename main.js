@@ -63,10 +63,12 @@ function refresh() {
 
 		console.log(quantity + " coin" + (quantity != 1 ? "s" : "") + " in " +
 			"the dish for a total of " + value + " cents.");
+		console.log("You " + (canPurchaseStamp(currentStamp) ? "can" : "cannot") + 
+			" purchase the current stamp.");
+		console.log("Cost of current stamp: " + currentStamp.attr("data-cost") +
+			" cents.");
 
 		coinsInDish = coins;
-
-		console.log(canPurchaseStamp(currentStamp));
 	}
 }
 
