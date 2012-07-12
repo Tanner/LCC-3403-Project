@@ -9,27 +9,11 @@ const COIN_VALUES = [5, 2];
 const START_COIN_QUANTITY = 5;
 
 var state = States.Start;
-var coinsInDish = 0;
+var coinsInDish = [];
 
-function refresh() {
-	var coins = numberOfCoinsInDish();
-	if (coins != coinsInDish) {
-		console.log(coins + " coin" + (coins != 1 ? "s" : "") + " in the dish");
-		coinsInDish = coins;
-	}
-}
-
-function numberOfCoinsInDish() {
-	var coins = 0;
-
-	$(".coin").each(function(e) {
-		if (new $.rect($(this)).intersects($("#dish"))) {
-			coins++;
-		}
-	});
-
-	return coins;
-}
+$(document).on("ready", function(e) {
+	layout();
+});
 
 function layout() {
 	switch (state) {
@@ -62,6 +46,35 @@ function layout() {
 	}
 }
 
+function refresh() {
+	var coins = getCoinsInDish();
+	if (coins != coinsInDish) {
+		var quantity = coins.length;
+		var amount = 0;
+
+		for (var i = 0; i < coins.length; i++) {
+			amount += coins[i];
+		}
+
+		console.log(quantity + " coin" + (quantity != 1 ? "s" : "") + " in " +
+			"the dish for a total of " + amount + " cents.");
+
+		coinsInDish = coins;
+	}
+}
+
+function getCoinsInDish() {
+	var coins = [];
+
+	$(".coin").each(function(e) {
+		if (new $.rect($(this)).intersects($("#dish"))) {
+			coins.push(parseInt($(this).attr("data-value")));
+		}
+	});
+
+	return coins;
+}
+
 function createCoin(value) {
 	var coin = $("<div>", {
 		"class": "coin",
@@ -83,7 +96,3 @@ function createCoin(value) {
 
 	return coin;
 }
-
-$(document).on("ready", function(e) {
-	layout();
-});
