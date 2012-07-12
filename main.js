@@ -133,6 +133,7 @@ function refresh() {
 function showDialog(content) {
 	return $("<div></div>").html(content).dialog({
 		title: "Message",
+		draggable: false,
 		close: function(event) {
 			$(this).remove();
 		}
