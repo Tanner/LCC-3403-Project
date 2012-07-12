@@ -9,6 +9,8 @@ const COIN_VALUES = [5, 2];
 const START_COIN_QUANTITY = 5;
 
 var state = States.Start;
+var currentStamp = null;
+
 var coinsInDish = [];
 
 $(document).on("ready", function(e) {
@@ -44,29 +46,27 @@ function layout() {
 				}
 			}
 
-			var stamp = createStamp(12);
-			stamp.position({
-				of: dish,
-				my: "center bottom",
-				at: "center top"
-			});
+			setCurrentStamp(createStamp(12));
 	}
 }
 
 function refresh() {
 	var coins = getCoinsInDish();
+
 	if (coins != coinsInDish) {
 		var quantity = coins.length;
-		var amount = 0;
+		var value = 0;
 
 		for (var i = 0; i < coins.length; i++) {
-			amount += coins[i];
+			value += coins[i];
 		}
 
 		console.log(quantity + " coin" + (quantity != 1 ? "s" : "") + " in " +
-			"the dish for a total of " + amount + " cents.");
+			"the dish for a total of " + value + " cents.");
 
 		coinsInDish = coins;
+
+		console.log(canPurchaseStamp(currentStamp));
 	}
 }
 
@@ -80,6 +80,27 @@ function getCoinsInDish() {
 	});
 
 	return coins;
+}
+
+function canPurchaseStamp(stamp) {
+	var coins = getCoinsInDish();
+
+	var value = 0;
+	for (var i = 0; i < coins.length; i++) {
+		value += coins[i];
+	}
+
+	return value == stamp.attr("data-cost");
+}
+
+function setCurrentStamp(stamp) {
+	stamp.position({
+		of: dish,
+		my: "center bottom",
+		at: "center top"
+	});
+
+	currentStamp = stamp;
 }
 
 function createCoin(value) {
