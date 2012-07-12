@@ -72,6 +72,13 @@ function initLayout() {
 	showTopCoinInStacks();
 
 	showDialog(currentState.introMessage);
+
+	createStamp(62).appendTo("#bottom").position({
+		of: $("#two"),
+		my: "left center",
+		at: "right center",
+		offset: "20 0"
+	});
 }
 
 function refreshLayout() {
@@ -202,7 +209,7 @@ function setCurrentStamp(stamp) {
 		return;
 	}
 
-	stamp.position({
+	stamp.appendTo("#top").position({
 		of: $("#top"),
 		my: "left top",
 		at: "left top",
@@ -244,7 +251,6 @@ function createStamp(cost) {
 
 	stamp = $("<div class=\"stamp\"><div><div><span>" + cost + "</span></div></div></div>");
 	stamp.attr("data-cost", cost);
-	stamp.appendTo("#top");
 
 	return stamp;
 }

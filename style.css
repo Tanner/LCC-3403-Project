@@ -4,7 +4,7 @@
 }
 
 body {
-	background: #ddd;
+	background: #EEE;
 
 	-webkit-user-select: none;
 }
@@ -22,26 +22,26 @@ body {
 	width: 960px;
 	height: 480px;
 	background: #fff;
-	border: 1px solid #bbb;
+	border: 1px solid #444;
 }
 
 #top {	
 	width: 100%;
-	height: 380px;
+	height: 359px;
 
 	background: #06651c;
 
-	-webkit-box-shadow: 0 -5px 10px 0 rgba(0, 0, 0, 0.1) inset;
+	-webkit-box-shadow: 0 -5px 10px 0 rgba(0, 0, 0, 0.2) inset;
 }
 
 #bottom {
 	position: relative;
 
 	width: 100%;
-	height: 100px;
+	height: 120px;
 
-	background: #ccc;
-	border-top: 1px solid #bbb;
+	background: #4d2f04;
+	border-top: 1px solid #352104;
 }
 
 .coin {
@@ -131,7 +131,7 @@ body {
 
 .stack {
 	width: 100px;
-	height: 100px;
+	height: 120px;
 }
 
 .stack#five {
