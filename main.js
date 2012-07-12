@@ -132,6 +132,7 @@ function refresh() {
 
 function showDialog(content) {
 	return $("<div></div>").html(content).dialog({
+		title: "Message",
 		close: function(event) {
 			$(this).remove();
 		}

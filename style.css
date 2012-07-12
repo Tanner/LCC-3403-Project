@@ -5,6 +5,8 @@
 
 body {
 	background: #ddd;
+
+	-webkit-user-select: none;
 }
 
 #wrapper {
@@ -100,4 +102,39 @@ body {
 	position: absolute;
 	bottom: 0;
 	left: 100px;
+}
+
+.ui-dialog {
+	background: #fff;
+	border: 1px solid #bbb;
+
+	border-radius: 4px;
+
+	padding: 10px;
+
+	font-family: "Helvetica", sans-serif;
+
+	-webkit-box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.ui-dialog-content {
+	min-height: inherit !important;
+}
+
+.ui-dialog-titlebar {
+	border-bottom: 1px solid #777;
+
+	padding-bottom: 3px;
+	margin-bottom: 5px;
+}
+
+.ui-dialog-title {
+	font-weight: bold;
+}
+
+.ui-dialog-titlebar-close {
+	float: right;
+
+	text-decoration: none;
+	color: #888;
 }
