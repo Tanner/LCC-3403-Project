@@ -94,7 +94,11 @@ function getCoinsInDish() {
 	var coins = [];
 
 	$(".coin").each(function(e) {
-		if (new $.rect($(this)).intersects($("#dish"))) {
+		if (new $.rect($(this),{
+		    position : 'offset',
+		    dimension : 'outer',
+		    withMargin : true
+		}).intersects($("#dish"))) {
 			coins.push(parseInt($(this).attr("data-value")));
 		}
 	});
