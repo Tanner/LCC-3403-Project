@@ -221,6 +221,8 @@ function createCoin(value) {
 	coin.draggable({
 		stack: ".coin",
 		containment: "#main",
+		snap: $(".stack"),
+		snapMode: "inner",
 		drag: function(event, ui) {
 			$(this).addClass("dragging");
 			$(this).addClass("dragged");
