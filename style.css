@@ -60,6 +60,8 @@ body {
 	background: -webkit-radial-gradient(center, ellipse cover, #7c7c7c 0%,#8f8f8f 100%); /* Chrome10+,Safari5.1+ */
 
 	border: 6px solid #7c7c7c;
+
+	-webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5), 0 0 5px 0 rgba(0, 0, 0, 0.5) inset;
 }
 
 .coin[data-value="3"] {
