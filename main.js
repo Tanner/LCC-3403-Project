@@ -6,7 +6,7 @@ const States = {
 const COIN_PADDING = 20;
 
 const COIN_VALUES = [5, 2];
-const START_COIN_QUANTITY = 10;
+const START_COIN_QUANTITY = 5;
 
 var state = States.Start;
 var coinsInDish = 0;
