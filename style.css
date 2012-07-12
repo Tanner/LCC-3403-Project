@@ -30,6 +30,8 @@ body {
 	height: 380px;
 
 	background: #06651c;
+
+	-webkit-box-shadow: 0 -5px 10px 0 rgba(0, 0, 0, 0.1) inset;
 }
 
 #bottom {
