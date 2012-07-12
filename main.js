@@ -38,7 +38,7 @@ function createCoinState(stampPrice, nextState) {
 
 function initLayout() {
 	$("#dish").position({
-		of: $("#left"),
+		of: $("#top"),
 		my: "center center",
 		at: "center center"
 	});
@@ -203,7 +203,7 @@ function setCurrentStamp(stamp) {
 	}
 
 	stamp.position({
-		of: left,
+		of: $("#top"),
 		my: "left top",
 		at: "left top",
 		offset: "20 20"
@@ -220,7 +220,7 @@ function createCoin(value) {
 	coin.attr("data-value", value);
 	coin.draggable({
 		stack: ".coin",
-		containment: "#left",
+		containment: "#main",
 		drag: function(event, ui) {
 			$(this).addClass("dragging");
 			$(this).addClass("dragged");
@@ -242,7 +242,7 @@ function createStamp(cost) {
 
 	stamp = $("<div class=\"stamp\"><div><span>" + cost + "</span></div></div>");
 	stamp.attr("data-cost", cost);
-	stamp.appendTo("#left");
+	stamp.appendTo("#top");
 
 	return stamp;
 }

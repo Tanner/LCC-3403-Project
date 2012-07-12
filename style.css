@@ -25,17 +25,19 @@ body {
 	border: 1px solid #bbb;
 }
 
-#right {
-	float: right;
-	width: 299px;
-	height: 480px;
-	background: #ccc;
-	border-left: 1px solid #bbb;
+#top {	
+	width: 100%;
+	height: 380px;
 }
 
-#left {
-	width: 660px;
-	height: 480px;
+#bottom {
+	position: relative;
+
+	width: 100%;
+	height: 100px;
+
+	background: #ccc;
+	border-top: 1px solid #bbb;
 }
 
 .coin {
