@@ -85,6 +85,10 @@ function getCoinsInDish() {
 }
 
 function canPurchaseStamp(stamp) {
+	if (!stamp) {
+		return false;
+	}
+
 	var coins = getCoinsInDish();
 
 	var value = 0;
@@ -96,6 +100,10 @@ function canPurchaseStamp(stamp) {
 }
 
 function setCurrentStamp(stamp) {
+	if (!stamp) {
+		return;
+	}
+
 	stamp.position({
 		of: dish,
 		my: "center bottom",
