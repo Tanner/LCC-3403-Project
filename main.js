@@ -5,7 +5,7 @@ const States = {
 
 const COIN_PADDING = 20;
 
-const COIN_VALUES = [5, 2];
+const COIN_VALUES = [3, 4];
 const START_COIN_QUANTITY = 5;
 
 var state = States.Start;
@@ -62,7 +62,7 @@ function layout() {
 				}
 			}
 
-			setCurrentStamp(createStamp(12));
+			setCurrentStamp(createStamp(6));
 	}
 
 	showTopCoinInStacks();
