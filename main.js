@@ -157,9 +157,9 @@ function getCoinsInDish() {
 
 	$(".coin").each(function(e) {
 		if (new $.rect($(this),{
-		    position : 'offset',
-		    dimension : 'outer',
-		    withMargin : true
+		    position: 'offset',
+		    dimension: 'outer',
+		    withMargin: true
 		}).intersects($("#dish"))) {
 			coins.push(parseInt($(this).attr("data-value")));
 		}
@@ -203,9 +203,10 @@ function setCurrentStamp(stamp) {
 	}
 
 	stamp.position({
-		of: dish,
-		my: "center bottom",
-		at: "center top"
+		of: left,
+		my: "left top",
+		at: "left top",
+		offset: "20 20"
 	});
 
 	currentStamp = stamp;
