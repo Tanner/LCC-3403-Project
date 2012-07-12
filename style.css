@@ -111,8 +111,11 @@ body {
 
 .stamp > div > div > span {
 	position: absolute;
-	bottom: 10px;
-	left: 12px;
+	bottom: 5px;
+	left: 6px;
+
+	font-size: 20px;
+	line-height: 20px;
 }
 
 #dish {
