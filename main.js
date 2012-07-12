@@ -17,6 +17,18 @@ $(document).on("ready", function(e) {
 	layout();
 });
 
+function showTopCoinInStacks() {
+	$(".stack").each(function() {
+		var coinsInStack = $(this).children().filter(function() {
+			if (!$(this).hasClass("dragged")) {
+				return true;
+			}
+		});
+
+		coinsInStack.first().css("visibility", "visible");
+	});
+}
+
 function layout() {
 	switch (state) {
 		case States.Start:
@@ -38,11 +50,15 @@ function layout() {
 						}
 					});
 
+					coin.appendTo(stack);
+
 					coin.position({
 						of: stack,
 						my: "center center",
 						at: "center center"
 					});
+
+					coin.css("visibility", "hidden");
 				}
 			}
 
@@ -70,6 +86,8 @@ function refresh() {
 
 		coinsInDish = coins;
 	}
+
+	showTopCoinInStacks();
 }
 
 function getCoinsInDish() {
@@ -119,15 +137,16 @@ function createCoin(value) {
 	});
 
 	coin.attr("data-value", value);
-	coin.appendTo("#left");
 	coin.draggable({
 		stack: ".coin",
-		containment: "parent",
+		containment: "#left",
 		drag: function(event, ui) {
-			$(this).addClass("darkshadow");
+			$(this).addClass("dragging");
+			$(this).addClass("dragged");
+			showTopCoinInStacks();
 		},
 		stop: function(event, ui) {
-			$(this).removeClass("darkshadow");
+			$(this).removeClass("dragging");
 			refresh();
 		}
 	});
