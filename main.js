@@ -70,6 +70,8 @@ function initLayout() {
 	setCurrentStamp(createStamp(currentState.stampPrice));
 
 	showTopCoinInStacks();
+
+	showDialog(currentState.introMessage);
 }
 
 function refreshLayout() {
@@ -123,7 +125,17 @@ function refresh() {
 		console.log("Time to move to next state");
 		currentState = currentState.nextState;
 		refreshLayout();
+
+		showDialog(currentState.introMessage);
 	}
+}
+
+function showDialog(content) {
+	return $("<div></div>").html(content).dialog({
+		close: function(event) {
+			$(this).remove();
+		}
+	});
 }
 
 function showTopCoinInStacks() {
