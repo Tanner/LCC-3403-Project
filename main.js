@@ -64,6 +64,8 @@ function layout() {
 
 			setCurrentStamp(createStamp(12));
 	}
+
+	showTopCoinInStacks();
 }
 
 function refresh() {
@@ -86,8 +88,6 @@ function refresh() {
 
 		coinsInDish = coins;
 	}
-
-	showTopCoinInStacks();
 }
 
 function getCoinsInDish() {
