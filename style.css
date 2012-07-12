@@ -47,6 +47,10 @@ body {
 	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.coin:before {
+	content: attr(data-value);
+}
+
 #dish {
 	width: 250px;
 	height: 250px;
