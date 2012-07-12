@@ -239,6 +239,7 @@ function createStamp(cost) {
 		"class": "stamp",
 	});
 
+	stamp = $("<div class=\"stamp\"><div><span>" + cost + "</span></div></div>");
 	stamp.attr("data-cost", cost);
 	stamp.appendTo("#left");
 
