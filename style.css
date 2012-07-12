@@ -62,6 +62,13 @@ body {
 	content: attr(data-value) "\a2";
 }
 
+.stamp {
+	width: 80px;
+	height: 80px;
+
+	background: #070;
+}
+
 #dish {
 	width: 250px;
 	height: 250px;

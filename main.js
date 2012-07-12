@@ -43,6 +43,13 @@ function layout() {
 					});
 				}
 			}
+
+			var stamp = createStamp(12);
+			stamp.position({
+				of: dish,
+				my: "center bottom",
+				at: "center top"
+			});
 	}
 }
 
@@ -95,4 +102,15 @@ function createCoin(value) {
 	});
 
 	return coin;
+}
+
+function createStamp(cost) {
+	var stamp = $("<div>", {
+		"class": "stamp",
+	});
+
+	stamp.attr("data-cost", cost);
+	stamp.appendTo("#left");
+
+	return stamp;
 }
