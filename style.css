@@ -42,13 +42,24 @@ body {
 .coin {
 	width: 60px;
 	height: 60px;
+
+	line-height: 60px;
+	text-align: center;
+
+	font-family: "Franklin Gothic";
+	font-size: 35px;
+	color: #ccc;
+
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+
 	border-radius: 30px;
 	background: #888888;
+
 	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .coin:before {
-	content: attr(data-value);
+	content: attr(data-value) "\a2";
 }
 
 #dish {
