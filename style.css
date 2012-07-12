@@ -62,8 +62,6 @@ body {
 .stack {
 	width: 80px;
 	height: 80px;
-
-	border: 5px solid #888;
 }
 
 .stack#five {
@@ -75,7 +73,7 @@ body {
 .stack#two {
 	position: absolute;
 	bottom: 0;
-	left: 95px;
+	left: 80px;
 }
 
 .lightshadow {
