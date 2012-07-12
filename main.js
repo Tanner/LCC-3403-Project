@@ -11,44 +11,32 @@ var coinsInDish = [];
 $(document).on("ready", function(e) {
 	initStates();
 
-	layout();
+	initLayout();
 });
 
 function initStates() {
-	var prevState = null;
-	var state = new State();
-	state.introMessage = "Pay for a 8 cent stamp with 3 and 4 cent coins.";
-	state.rejectMessage = "That is not right, try again.";
-	state.stampPrice = 8;
-	state.validationMethod = function() {
-		return getValueOfCoins() == state.stampPrice;
-	}
-	state.nextState = prevState;
+	var stateC = createCoinState(8, null);
+	var stateB = createCoinState(7, stateC);
+	var stateA = createCoinState(6, stateB);
 
-	prevState = state;
-	state = new State();
-	state.introMessage = "Pay for a 7 cent stamp with 3 and 4 cent coins.";
-	state.rejectMessage = "That is not right, try again.";
-	state.stampPrice = 7;
-	state.validationMethod = function() {
-		return getValueOfCoins() == state.stampPrice;
-	}
-	state.nextState = prevState;
-
-	prevState = state;
-	state = new State();
-	state.introMessage = "Pay for a 6 cent stamp with 3 and 4 cent coins.";
-	state.rejectMessage = "That is not right, try again.";
-	state.stampPrice = 6;
-	state.validationMethod = function() {
-		return getValueOfCoins() == state.stampPrice;
-	}
-	state.nextState = prevState;
-
-	currentState = state;
+	currentState = stateA;
 }
 
-function layout() {
+function createCoinState(stampPrice, nextState) {
+	var state = new State();
+
+	state.introMessage = "Pay for a " + stampPrice + " cent stamp with 3 and 4 cent coins.";
+	state.rejectMessage = "That is not right, try again.";
+	state.stampPrice = stampPrice;
+	state.validationMethod = function() {
+		return getValueOfCoins(coinsInDish) == stampPrice;
+	}
+	state.nextState = nextState;
+
+	return state;
+}
+
+function initLayout() {
 	$("#dish").position({
 		of: $("#left"),
 		my: "center center",
@@ -84,6 +72,36 @@ function layout() {
 	showTopCoinInStacks();
 }
 
+function refreshLayout() {
+	$(".coin").each(function() {
+		var coin = $(this);
+		var stack = $("#dish");
+
+		$(".stack").each(function() {
+			var stackValue = parseInt($(this).attr("data-value"));
+			var coinValue = parseInt(coin.attr("data-value"));
+
+			if (stackValue == coinValue) {
+				stack = $(this);
+				return;
+			}
+		});
+
+		coin.position({
+			of: stack,
+			my: "center center",
+			at: "center center"
+		});
+
+		coin.css("visibility", "hidden");
+	});
+
+	currentStamp.remove();
+	setCurrentStamp(createStamp(currentState.stampPrice));
+
+	showTopCoinInStacks();
+}
+
 function refresh() {
 	var coins = getCoinsInDish();
 
@@ -99,6 +117,12 @@ function refresh() {
 			" cents.");
 
 		coinsInDish = coins;
+	}
+
+	if (currentState.validationMethod()) {
+		console.log("Time to move to next state");
+		currentState = currentState.nextState;
+		refreshLayout();
 	}
 }
 
@@ -146,6 +170,10 @@ function canPurchaseStamp(stamp) {
 }
 
 function getValueOfCoins(coins) {
+	if (!coins) {
+		return 0;
+	}
+
 	var value = 0;
 
 	for (var i = 0; i < coins.length; i++) {
