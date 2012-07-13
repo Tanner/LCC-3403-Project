@@ -5,6 +5,12 @@ const START_COIN_QUANTITY = 5;
 
 const REJECTION_MESSAGE_TITLE = "Hmmm&hellip;";
 
+const WELCOME_MESSAGE_TITLE = "The Strong Induction Game";
+const WELCOME_MESSAGE = "Use the items in your wallet to pay for the stamps.";
+
+const DIALOG_CLOSE_TEXT = "Continue"
+const DIALOG_MIN_WIDTH = 400;
+
 var currentState = null;
 var currentStamp = null;
 
@@ -88,7 +94,10 @@ function initLayout() {
 
 	showTopCoinInStacks();
 
-	showDialog(currentState.introMessageTitle, currentState.introMessage);
+	var welcomeDialog = showDialog(WELCOME_MESSAGE_TITLE, WELCOME_MESSAGE);
+	welcomeDialog.on("dialogclose", function(event, ui) {
+		showDialog(currentState.introMessageTitle, currentState.introMessage);
+	});
 }
 
 function refreshLayout() {
@@ -160,7 +169,9 @@ function showDialog(title, content) {
 	var dialog = $("<div></div>").html(content).dialog({
 		title: title,
 		draggable: false,
-		closeText: "Done",
+		closeText: DIALOG_CLOSE_TEXT,
+		closeOnEscape: true,
+		minWidth: DIALOG_MIN_WIDTH,
 		open: function(event) {
 			$(".stack .coin").each(function() {
 				$(this).draggable("disable");
