@@ -33,11 +33,13 @@ $(document).on("keyup", function(e) {
 });
 
 function initStates() {
-	var eightCentState = createCoinState(8, null);
+	var nineCentComboState = createComboState(9, [3], [6], null);
+	var nineCentCoinsState = createCoinState(9, nineCentComboState);
+	var eightCentState = createCoinState(8, nineCentCoinsState);
 	var sevenCentState = createCoinState(7, eightCentState);
 	var sixCentState = createCoinState(6, sevenCentState);
 
-	currentState = sixCentState;
+	currentState = nineCentComboState;
 }
 
 function createCoinState(stampPrice, nextState) {
@@ -48,6 +50,30 @@ function createCoinState(stampPrice, nextState) {
 
 	state.validMessageTitle = "Good job!";
 	state.validMessage = "You got the coin amount correct.";
+
+	state.stampPrice = stampPrice;
+	state.validationMethod = function() {
+		return getValueOfCoins(coinsInDish) == stampPrice;
+	}
+	state.rejectionMethod = function() {
+		if (getValueOfCoins(coinsInDish) > stampPrice) {
+			return "That's a bit too much. Try removing some coins.";
+		}
+
+		return null;
+	}
+	state.nextState = nextState;
+
+	return state;
+}
+
+function createComboState(stampPrice, validCoins, validStamp, nextState) {
+	var state = new State();
+
+	state.introMessage = "Pay for a " + stampPrice + " cent stamp using ";
+	state.introMessage += paymentMethodAsString(true, true) + ".";
+
+	state.validMessage = "You got the coin amount correct.<br/><br/>Good job!";
 
 	state.stampPrice = stampPrice;
 	state.validationMethod = function() {
@@ -277,6 +303,40 @@ function setCurrentStamp(stamp) {
 	});
 
 	currentStamp = stamp;
+}
+
+Array.prototype.list = function() {
+	var string = "";
+
+	for (var i = 0; i < this.length; i++) {
+		if (i == this.length - 1) {
+			string += "and " + this[i];
+		} else if (this.length > 2) {
+			string += this[i] + ", ";
+		} else {
+			string += this[i] + " ";
+		}
+	}
+
+	return string;
+}
+
+function paymentMethodAsString(coins, stamps) {
+	var string = "";
+
+	if (coins) {
+		string += COIN_VALUES.list() + " cent coins";
+	}
+
+	if (coins && stamps) {
+		string += " along with ";
+	}
+
+	if (stamps) {
+		string += COIN_VALUES.list() + " cent coins";
+	}
+
+	return string;
 }
 
 function createCoin(value) {
