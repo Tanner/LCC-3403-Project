@@ -167,6 +167,25 @@ body {
 	line-height: 20px;
 }
 
+.stamp #cent {
+	position: absolute;
+	top: -10px;
+	left: 15px;
+
+	font-size: 65px;
+	line-height: 90px;
+
+	text-align: center;
+
+	color: rgba(0, 0, 0, 0.1);
+
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.stamp #cent:before {
+	content: attr(data-value) "\00B6";
+}
+
 .stack {
 	width: 100px;
 	height: 117px;

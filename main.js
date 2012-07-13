@@ -67,7 +67,7 @@ function createCoinState(stampPrice, nextState) {
 	state.rejectionMethod = function() {
 		var dishCoinValue = coinsInDish.sum();
 		var dishStampValue = stampsInDish.sum();
-		
+
 		if (dishCoinValue + dishStampValue > stampPrice) {
 			var string = "That's a bit too much. Try removing some ";
 
@@ -502,7 +502,7 @@ function createStamp(cost) {
 		"class": "stamp",
 	});
 
-	stamp = $("<div class=\"stamp\"><div><div><span>" + cost + "</span></div></div></div>");
+	stamp = $("<div class=\"stamp\"><div><div><span id=\"cent\"></span><span>" + cost + "</span></div></div></div>");
 	stamp.attr("data-cost", cost);
 
 	var pow = 1024;
