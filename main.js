@@ -163,6 +163,7 @@ function initLayout() {
 }
 
 function refreshLayout() {
+	// Move coins back to their respective stacks
 	$(".coin").each(function() {
 		var coin = $(this);
 		var stack = $("#dish");
@@ -186,7 +187,8 @@ function refreshLayout() {
 		coin.css("visibility", "hidden");
 	});
 
-	setCurrentStamp(createStamp(currentState.stampPrice));
+	// Move stamps back to the wallet
+	moveStampsBackToWallet();
 
 	showTopCoinInStacks();
 }
@@ -210,6 +212,8 @@ function refresh() {
 
 	if (dishChanged) {
 		if (currentState.validationMethod()) {
+			refreshLayout();
+
 			moveStampToWallet(currentStamp);
 
 			var validDialog = showDialog(currentState.validMessageTitle, currentState.validMessage);
@@ -220,8 +224,7 @@ function refresh() {
 				if (currentState && currentState.willBeginMethod) {
 					currentState.willBeginMethod();
 				}
-
-				refreshLayout();
+				setCurrentStamp(createStamp(currentState.stampPrice));
 
 				showDialog(currentState.introMessageTitle, currentState.introMessage);
 			});
@@ -343,6 +346,20 @@ function moveStampToWallet(stamp) {
 		at: "right center",
 		offset: "20 0"
 	});
+}
+
+function moveStampsBackToWallet() {
+	var appendingElement = $("#bottom .stack#two");
+	$("#bottom .stamp").each(function() {
+		$(this).position({
+			of: appendingElement,
+			my: "left center",
+			at: "right center",
+			offset: "20 0"
+		});
+
+		appendingElement = $(this);
+	})
 }
 
 function setCurrentStamp(stamp) {
