@@ -3,6 +3,8 @@ const COIN_PADDING = 20;
 const COIN_VALUES = [3, 4];
 const START_COIN_QUANTITY = 5;
 
+const REJECTION_MESSAGE_TITLE = "Hmmm&hellip;";
+
 var currentState = null;
 var currentStamp = null;
 
@@ -35,8 +37,11 @@ function initStates() {
 function createCoinState(stampPrice, nextState) {
 	var state = new State();
 
+	state.introMessageTitle = "Objective";
 	state.introMessage = "Pay for a " + stampPrice + " cent stamp with 3 and 4 cent coins.";
-	state.validMessage = "You got the coin amount correct.<br/><br/>Good job!";
+
+	state.validMessageTitle = "Good job!";
+	state.validMessage = "You got the coin amount correct.";
 
 	state.stampPrice = stampPrice;
 	state.validationMethod = function() {
@@ -83,7 +88,7 @@ function initLayout() {
 
 	showTopCoinInStacks();
 
-	showDialog(currentState.introMessage);
+	showDialog(currentState.introMessageTitle, currentState.introMessage);
 }
 
 function refreshLayout() {
@@ -134,27 +139,28 @@ function refresh() {
 		if (currentState.validationMethod()) {
 			moveStampToWallet(currentStamp);
 
-			var validDialog = showDialog(currentState.validMessage);
+			var validDialog = showDialog(currentState.validMessageTitle, currentState.validMessage);
 			validDialog.bind( "dialogclose", function(event, ui) {
 
 				currentState = currentState.nextState;
 				refreshLayout();
 
-				showDialog(currentState.introMessage);
+				showDialog(currentState.introMessageTitle, currentState.introMessage);
 			});
 		}
 
 		var rejectMessage = currentState.rejectionMethod();
 		if (rejectMessage) {
-			showDialog(rejectMessage);
+			showDialog(REJECTION_MESSAGE_TITLE, rejectMessage);
 		}
 	}
 }
 
-function showDialog(content) {
+function showDialog(title, content) {
 	var dialog = $("<div></div>").html(content).dialog({
-		title: "Message",
+		title: title,
 		draggable: false,
+		closeText: "Done",
 		open: function(event) {
 			$(".stack .coin").each(function() {
 				$(this).draggable("disable");
@@ -299,7 +305,10 @@ function createStamp(cost) {
 }
 
 function State() {
+	this.introMessageTitle = "";
 	this.introMessage = "";
+
+	this.validMessageTitle = "";
 	this.validMessage = "";
 
 	this.validationMethod = null;
