@@ -118,8 +118,8 @@ function createComboState(stampPrice, validCoins, validStamp, nextState) {
 		var dishStampValue = stampsInDish.sum();
 
 		if (dishCoinValue == stampPrice) {
-			return "You don't want to spend more money than you need to." +
-				"<br/><br/>Is there something other way to pay for the stamp?";
+			return "You don't want to use more coins than you have to." +
+				"<br/><br/>Is there some other way to pay for the stamp?";
 		}
 
 		if (dishCoinValue + dishStampValue > stampPrice) {
