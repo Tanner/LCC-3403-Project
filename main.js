@@ -50,7 +50,8 @@ function createCoinState(stampPrice, nextState) {
 	state.introMessage += paymentMethodAsString(true, false) + ".";
 
 	state.validMessageTitle = "Good job!";
-	state.validMessage = "You got the coin amount correct.";
+	state.validMessage = "You got the coin amount correct.<br/><br/>A " +
+		+ stampPrice + " cent stamp has been added to your wallet.";
 
 	state.stampPrice = stampPrice;
 	state.validationMethod = function() {
@@ -79,7 +80,8 @@ function createComboState(stampPrice, validCoins, validStamp, nextState) {
 		state.introMessage += paymentMethodAsString(true, true) + ".";
 	}
 
-	state.validMessage = "You got the payment amount correct.<br/><br/>Good job!";
+	state.validMessageTitle = "Good job!";
+	state.validMessage = "You got the payment amount correct.";
 
 	state.stampPrice = stampPrice;
 	state.validationMethod = function() {
