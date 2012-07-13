@@ -490,6 +490,12 @@ function createStamp(cost) {
 	stamp = $("<div class=\"stamp\"><div><div><span>" + cost + "</span></div></div></div>");
 	stamp.attr("data-cost", cost);
 
+	var pow = 1024;
+	var h = Math.pow(pow, cost) % 360;
+	var s = 100;
+	var l = 30;
+	stamp.children().children("div").css("background", "hsl(" + h + ", " + s + "%, " + l + "%)");
+
 	return stamp;
 }
 
