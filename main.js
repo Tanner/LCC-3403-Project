@@ -16,6 +16,8 @@ const FINISH_MESSAGE = "You completed the game!<br/><br/>Hopefully you've" +
 const DIALOG_CLOSE_TEXT = "Continue"
 const DIALOG_MIN_WIDTH = 400;
 
+const WALLET_LAST_COIN_STACK = "#bottom .stack#two";
+
 var currentState = null;
 var currentStamp = null;
 
@@ -386,7 +388,7 @@ function moveStampToWallet(stamp) {
 }
 
 function moveStampsBackToWallet() {
-	var appendingElement = $("#bottom .stack#two");
+	var appendingElement = $(WALLET_LAST_COIN_STACK);
 	$("#bottom .stamp").each(function() {
 		$(this).position({
 			of: appendingElement,
