@@ -152,7 +152,16 @@ function showDialog(content) {
 	return $("<div></div>").html(content).dialog({
 		title: "Message",
 		draggable: false,
+		open: function(event) {
+			$(".stack .coin").each(function() {
+				$(this).draggable("disable");
+			});
+		},
 		close: function(event) {
+			$(".stack .coin").each(function() {
+				$(this).draggable("enable");
+			});
+
 			$(this).remove();
 		}
 	});
