@@ -229,21 +229,24 @@ function refresh() {
 
 			var validDialog = showDialog(currentState.validMessageTitle, currentState.validMessage);
 			validDialog.bind( "dialogclose", function(event, ui) {
-
 				currentState = currentState.nextState;
 
-				if (currentState && currentState.willBeginMethod) {
-					currentState.willBeginMethod();
-				}
-				setCurrentStamp(createStamp(currentState.stampPrice));
+				if (currentState) {
+					if (currentState.willBeginMethod) {
+						currentState.willBeginMethod();
+					}
+					setCurrentStamp(createStamp(currentState.stampPrice));
 
-				showDialog(currentState.introMessageTitle, currentState.introMessage);
+					showDialog(currentState.introMessageTitle, currentState.introMessage);
+				}
 			});
 		}
 
-		var rejectMessage = currentState.rejectionMethod();
-		if (rejectMessage) {
-			showDialog(REJECTION_MESSAGE_TITLE, rejectMessage);
+		if (currentState) {
+			var rejectMessage = currentState.rejectionMethod();
+			if (rejectMessage) {
+				showDialog(REJECTION_MESSAGE_TITLE, rejectMessage);
+			}
 		}
 	}
 }
