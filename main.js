@@ -8,6 +8,10 @@ const REJECTION_MESSAGE_TITLE = "Hmmm&hellip;";
 const WELCOME_MESSAGE_TITLE = "The Strong Induction Game";
 const WELCOME_MESSAGE = "Use the items in your wallet to pay for the stamps.";
 
+const FINISH_MESSAGE_TITLE = "Hurrah!";
+const FINISH_MESSAGE = "You completed the game!<br/><br/>Hopefully you've" +
+	" have an idea of what Strong Induction is now.<br/><br/>Refresh to replay.";
+
 const DIALOG_CLOSE_TEXT = "Continue"
 const DIALOG_MIN_WIDTH = 400;
 
@@ -228,7 +232,7 @@ function refresh() {
 			moveStampToWallet(currentStamp);
 
 			var validDialog = showDialog(currentState.validMessageTitle, currentState.validMessage);
-			validDialog.bind( "dialogclose", function(event, ui) {
+			validDialog.bind("dialogclose", function(event, ui) {
 				currentState = currentState.nextState;
 
 				if (currentState) {
@@ -238,6 +242,24 @@ function refresh() {
 					setCurrentStamp(createStamp(currentState.stampPrice));
 
 					showDialog(currentState.introMessageTitle, currentState.introMessage);
+				} else {
+					var finishDialog = showDialog(FINISH_MESSAGE_TITLE, FINISH_MESSAGE);
+					finishDialog.bind("dialogclose", function(event, ui) {
+						$("#main").transition({
+							perspective: "800px",
+							rotateY: "90deg"
+						}, 250, 'linear', function() {
+							$("#top").remove();
+							$("#bottom").remove();
+
+							$(this).transition({
+								perspective: "800px",
+								rotateY: "180deg"
+							}, 250, 'linear', function() {
+								$(this).css("-webkit-transform", "inherit");
+							});
+						});
+					});
 				}
 			});
 		}
