@@ -80,13 +80,6 @@ function initLayout() {
 	showTopCoinInStacks();
 
 	showDialog(currentState.introMessage);
-
-	createStamp(62).appendTo("#bottom").position({
-		of: $("#two"),
-		my: "left center",
-		at: "right center",
-		offset: "20 0"
-	});
 }
 
 function refreshLayout() {
@@ -113,7 +106,6 @@ function refreshLayout() {
 		coin.css("visibility", "hidden");
 	});
 
-	currentStamp.remove();
 	setCurrentStamp(createStamp(currentState.stampPrice));
 
 	showTopCoinInStacks();
@@ -136,8 +128,11 @@ function refresh() {
 		coinsInDish = coins;
 
 		if (currentState.validationMethod()) {
+			moveStampToWallet(currentStamp);
+
 			var validDialog = showDialog(currentState.validMessage);
 			validDialog.bind( "dialogclose", function(event, ui) {
+
 				currentState = currentState.nextState;
 				refreshLayout();
 
@@ -229,6 +224,16 @@ function getValueOfCoins(coins) {
 	}
 
 	return value;
+}
+
+function moveStampToWallet(stamp) {
+	var bottomChildren = $("#bottom").children();
+	stamp.appendTo("#bottom").position({
+		of: bottomChildren.eq(bottomChildren.length - 1),
+		my: "left center",
+		at: "right center",
+		offset: "20 0"
+	});
 }
 
 function setCurrentStamp(stamp) {
