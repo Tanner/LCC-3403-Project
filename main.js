@@ -45,7 +45,9 @@ function createCoinState(stampPrice, nextState) {
 	var state = new State();
 
 	state.introMessageTitle = "Objective";
-	state.introMessage = "Pay for a " + stampPrice + " cent stamp with 3 and 4 cent coins.";
+
+	state.introMessage = "Pay for a " + stampPrice + " cent stamp using ";
+	state.introMessage += paymentMethodAsString(true, false) + ".";
 
 	state.validMessageTitle = "Good job!";
 	state.validMessage = "You got the coin amount correct.";
