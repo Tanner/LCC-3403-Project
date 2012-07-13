@@ -98,11 +98,20 @@ function createComboState(stampPrice, validCoins, validStamp, nextState) {
 
 	state.stampPrice = stampPrice;
 	state.validationMethod = function() {
-		return coinsInDish.sum() + stampsInDish.sum() == stampPrice;
+		if (coinsInDish.sum() == stampPrice) {
+			return false;
+		} else {
+			return coinsInDish.sum() + stampsInDish.sum() == stampPrice;
+		}
 	}
 	state.rejectionMethod = function() {
 		var dishCoinValue = coinsInDish.sum();
 		var dishStampValue = stampsInDish.sum();
+
+		if (dishCoinValue == stampPrice) {
+			return "You don't want to spend more money than you need to." +
+				"<br/><br/>Is there something other way to pay for the stamp?";
+		}
 
 		if (dishCoinValue + dishStampValue > stampPrice) {
 			var string = "That's a bit too much. Try removing some ";
