@@ -46,7 +46,6 @@ function createCoinState(stampPrice, nextState) {
 	var state = new State();
 
 	state.introMessageTitle = "Objective";
-
 	state.introMessage = "Pay for a " + stampPrice + " cent stamp using ";
 	state.introMessage += paymentMethodAsString(true, false) + ".";
 
@@ -74,7 +73,6 @@ function createComboState(stampPrice, validCoins, validStamp, nextState) {
 	var state = new State();
 
 	state.introMessageTitle = "Objective";
-
 	state.introMessage = "Pay for a " + stampPrice + " cent stamp using ";
 
 	state.willBeginMethod = function() {
@@ -95,15 +93,31 @@ function createComboState(stampPrice, validCoins, validStamp, nextState) {
 	}
 
 	state.validMessageTitle = "Good job!";
-	state.validMessage = "You got the payment amount correct.";
+	state.validMessage = "You got the payment correct.<br/><br/>A " +
+		+ stampPrice + " cent stamp has been added to your wallet.";
 
 	state.stampPrice = stampPrice;
 	state.validationMethod = function() {
 		return coinsInDish.sum() + stampsInDish.sum() == stampPrice;
 	}
 	state.rejectionMethod = function() {
-		if (coinsInDish.sum() + stampsInDish.sum() > stampPrice) {
-			return "That's a bit too much. Try removing some coins.";
+		var dishCoinValue = coinsInDish.sum();
+		var dishStampValue = stampsInDish.sum();
+
+		if (dishCoinValue + dishStampValue > stampPrice) {
+			var string = "That's a bit too much. Try removing some ";
+
+			if (dishStampValue > 0 && dishCoinValue > 0) {
+				string += "coins or stamps";
+			} else if (dishCoinValue > 0) {
+				string += "coins";
+			} else if (dishStampValue > 0) {
+				string += "stamps";
+			}
+
+			string += " from the dish.";
+
+			return string;
 		}
 
 		return null;
