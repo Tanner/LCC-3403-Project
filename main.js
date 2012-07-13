@@ -70,9 +70,12 @@ function createComboState(stampPrice, validCoins, validStamp, nextState) {
 	var state = new State();
 
 	state.introMessage = "Pay for a " + stampPrice + " cent stamp using ";
-	state.introMessage += paymentMethodAsString(true, true) + ".";
 
-	state.validMessage = "You got the coin amount correct.<br/><br/>Good job!";
+	state.willBeginMethod = function() {
+		state.introMessage += paymentMethodAsString(true, true) + ".";
+	}
+
+	state.validMessage = "You got the payment amount correct.<br/><br/>Good job!";
 
 	state.stampPrice = stampPrice;
 	state.validationMethod = function() {
@@ -177,6 +180,11 @@ function refresh() {
 			validDialog.bind( "dialogclose", function(event, ui) {
 
 				currentState = currentState.nextState;
+
+				if (currentState.willBeginMethod) {
+					currentState.willBeginMethod();
+				}
+
 				refreshLayout();
 
 				showDialog(currentState.introMessageTitle, currentState.introMessage);
@@ -250,6 +258,16 @@ function getCoinsInDish() {
 	return coins;
 }
 
+function getStampsInWallet() {
+	var stamps = [];
+
+	$("#bottom .stamp").each(function() {
+		stamps.push($(this));
+	});
+
+	return stamps;
+}
+
 function canPurchaseStamp(stamp) {
 	if (!stamp) {
 		return false;
@@ -304,35 +322,61 @@ function setCurrentStamp(stamp) {
 	currentStamp = stamp;
 }
 
-Array.prototype.list = function() {
+Array.prototype.list = function(elementPrinter) {
+	if (this.length == 0) {
+		return "no";
+	}
+
+	var printElement = elementPrinter ? elementPrinter : function(element) {
+		return element;
+	}
+
 	var string = "";
 
 	for (var i = 0; i < this.length; i++) {
 		if (i == this.length - 1) {
-			string += "and " + this[i];
+			string += "and " + printElement(this[i]);
 		} else if (this.length > 2) {
-			string += this[i] + ", ";
+			string += printElement(this[i]) + ", ";
 		} else {
-			string += this[i] + " ";
+			string += printElement(this[i]) + " ";
 		}
 	}
 
 	return string;
 }
 
-function paymentMethodAsString(coins, stamps) {
+function paymentMethodAsString(includeCoins, includeStamps) {
 	var string = "";
 
-	if (coins) {
-		string += COIN_VALUES.list() + " cent coins";
+	if (includeCoins) {
+		string += COIN_VALUES.list() + " cent ";
+
+		if (COIN_VALUES.length > 1 || COIN_VALUES.length == 0) {
+			string += "coins";
+		} else {
+			string += "coin";
+		}
 	}
 
-	if (coins && stamps) {
+	if (includeCoins && includeStamps) {
 		string += " along with ";
 	}
 
-	if (stamps) {
-		string += COIN_VALUES.list() + " cent coins";
+	if (includeStamps) {
+		var stamps = getStampsInWallet();
+
+		var stampPrinter = function(element) {
+			return element.attr("data-cost");
+		};
+
+		string += stamps.list(stampPrinter) + " cent ";
+
+		if (stamps.length > 1 || stamps.length == 0) {
+			string += "stamps";
+		} else {
+			string += "stamp";
+		}
 	}
 
 	return string;
@@ -380,6 +424,8 @@ function State() {
 
 	this.validMessageTitle = "";
 	this.validMessage = "";
+
+	this.willBeginMethod = null;
 
 	this.validationMethod = null;
 	this.rejectionMethod = null;
