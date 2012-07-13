@@ -78,6 +78,19 @@ function createComboState(stampPrice, validCoins, validStamp, nextState) {
 
 	state.willBeginMethod = function() {
 		state.introMessage += paymentMethodAsString(true, true) + ".";
+
+		$("#bottom .stamp").draggable({
+			stack: ".stamp, .coin",
+			containment: "#main",
+			drag: function(event, ui) {
+				$(this).addClass("dragging");
+				$(this).addClass("dragged");
+			},
+			stop: function(event, ui) {
+				$(this).removeClass("dragging");
+				refresh();
+			}
+		});
 	}
 
 	state.validMessageTitle = "Good job!";
@@ -395,10 +408,8 @@ function createCoin(value) {
 
 	coin.attr("data-value", value);
 	coin.draggable({
-		stack: ".coin",
+		stack: ".coin, .stamp",
 		containment: "#main",
-		snap: $(".stack"),
-		snapMode: "inner",
 		drag: function(event, ui) {
 			$(this).addClass("dragging");
 			$(this).addClass("dragged");
