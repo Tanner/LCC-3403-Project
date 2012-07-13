@@ -152,9 +152,9 @@ function initLayout() {
 		}
 	}
 
-	setCurrentStamp(createStamp(currentState.stampPrice));
-
 	showTopCoinInStacks();
+
+	setCurrentStamp(createStamp(currentState.stampPrice));
 
 	var welcomeDialog = showDialog(WELCOME_MESSAGE_TITLE, WELCOME_MESSAGE);
 	welcomeDialog.on("dialogclose", function(event, ui) {
@@ -183,6 +183,8 @@ function refreshLayout() {
 			my: "center center",
 			at: "center center"
 		});
+
+		coin.removeClass("dragged");
 
 		coin.css("visibility", "hidden");
 	});
