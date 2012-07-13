@@ -378,6 +378,8 @@ function canPurchaseStamp(stamp) {
 }
 
 function moveStampToWallet(stamp) {
+	stamp.off("mousedown");
+
 	var bottomChildren = $("#bottom").children();
 	stamp.appendTo("#bottom").position({
 		of: bottomChildren.eq(bottomChildren.length - 1),
@@ -412,6 +414,11 @@ function setCurrentStamp(stamp) {
 		at: "left top",
 		offset: "20 20"
 	});
+
+	stamp.on("mousedown", function() {
+		showDialog("You can't take that!", "You have to pay for it first" +
+			" &mdash; that'll be " + stamp.attr("data-cost") + " cents.");
+	})
 
 	currentStamp = stamp;
 }
