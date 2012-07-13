@@ -34,12 +34,11 @@ $(document).on("keyup", function(e) {
 
 function initStates() {
 	var nineCentComboState = createComboState(9, [3], [6], null);
-	var nineCentCoinsState = createCoinState(9, nineCentComboState);
-	var eightCentState = createCoinState(8, nineCentCoinsState);
+	var eightCentState = createCoinState(8, nineCentComboState);
 	var sevenCentState = createCoinState(7, eightCentState);
 	var sixCentState = createCoinState(6, sevenCentState);
 
-	currentState = nineCentComboState;
+	currentState = sixCentState;
 }
 
 function createCoinState(stampPrice, nextState) {
