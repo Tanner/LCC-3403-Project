@@ -45,7 +45,7 @@ body {
 	position: relative;
 
 	width: 100%;
-	height: 380px;
+	height: 340px;
 
 	background: #06651c;
 
@@ -56,6 +56,7 @@ body {
 	position: relative;
 
 	width: 100%;
+	margin-top: 39px;
 	height: 119px; /* 120 - 1 */
 
 	background: #4d2f04;
