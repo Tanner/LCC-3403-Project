@@ -172,13 +172,13 @@ body {
 	height: 117px;
 }
 
-.stack#five {
+.stack#a {
 	position: absolute;
 	bottom: 0;
 	left: 0;
 }
 
-.stack#two {
+.stack#b {
 	position: absolute;
 	bottom: 0;
 	left: 100px;
