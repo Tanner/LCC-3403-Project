@@ -83,11 +83,10 @@ body {
 #dish {
 	position: absolute;
 	top: 20px;
-	left: 50%;
+	left: -webkit-calc(((940px - 300px) / 2));
 
 	width: 300px;
 	height: 300px;
-	margin-left: -150px;
 
 	border-radius: 300px;
 
