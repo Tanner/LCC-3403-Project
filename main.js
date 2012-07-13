@@ -156,11 +156,14 @@ function showDialog(content) {
 			$(".stack .coin").each(function() {
 				$(this).draggable("disable");
 			});
+			$("body").append("<div id='modal-overlay'></div>");
 		},
 		close: function(event) {
 			$(".stack .coin").each(function() {
 				$(this).draggable("enable");
 			});
+
+			$("#modal-overlay").remove();
 
 			$(this).remove();
 		}
