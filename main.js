@@ -8,10 +8,20 @@ var currentStamp = null;
 
 var coinsInDish = [];
 
+var currentDialog = null;
+
 $(document).on("ready", function(e) {
 	initStates();
 
 	initLayout();
+});
+
+$(document).on("keyup", function(e) {
+	var code = (e.keyCode ? e.keyCode : e.which);
+	// enter key pressed
+	if (e.keyCode == 13) {
+		closeDialog();
+	}
 });
 
 function initStates() {
@@ -148,7 +158,7 @@ function refresh() {
 }
 
 function showDialog(content) {
-	return $("<div></div>").html(content).dialog({
+	var dialog = $("<div></div>").html(content).dialog({
 		title: "Message",
 		draggable: false,
 		open: function(event) {
@@ -167,6 +177,13 @@ function showDialog(content) {
 			$(this).remove();
 		}
 	});
+
+	currentDialog = dialog;
+	return dialog;
+}
+
+function closeDialog(dialog) {
+	currentDialog.dialog('close');
 }
 
 function showTopCoinInStacks() {
