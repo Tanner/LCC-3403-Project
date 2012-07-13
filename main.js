@@ -26,6 +26,8 @@ function createCoinState(stampPrice, nextState) {
 	var state = new State();
 
 	state.introMessage = "Pay for a " + stampPrice + " cent stamp with 3 and 4 cent coins.";
+	state.validMessage = "You got the coin amount correct.<br/><br/>Good job!";
+
 	state.stampPrice = stampPrice;
 	state.validationMethod = function() {
 		return getValueOfCoins(coinsInDish) == stampPrice;
@@ -134,11 +136,13 @@ function refresh() {
 		coinsInDish = coins;
 
 		if (currentState.validationMethod()) {
-			console.log("Time to move to next state");
-			currentState = currentState.nextState;
-			refreshLayout();
+			var validDialog = showDialog(currentState.validMessage);
+			validDialog.bind( "dialogclose", function(event, ui) {
+				currentState = currentState.nextState;
+				refreshLayout();
 
-			showDialog(currentState.introMessage);
+				showDialog(currentState.introMessage);
+			});
 		}
 
 		var rejectMessage = currentState.rejectionMethod();
@@ -280,6 +284,7 @@ function createStamp(cost) {
 
 function State() {
 	this.introMessage = "";
+	this.validMessage = "";
 
 	this.validationMethod = null;
 	this.rejectionMethod = null;
