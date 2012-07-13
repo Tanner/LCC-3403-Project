@@ -15,6 +15,7 @@ var currentState = null;
 var currentStamp = null;
 
 var coinsInDish = [];
+var stampsInDish = [];
 
 var currentDialog = null;
 
@@ -55,10 +56,10 @@ function createCoinState(stampPrice, nextState) {
 
 	state.stampPrice = stampPrice;
 	state.validationMethod = function() {
-		return getValueOfCoins(coinsInDish) == stampPrice;
+		return coinsInDish.sum() == stampPrice;
 	}
 	state.rejectionMethod = function() {
-		if (getValueOfCoins(coinsInDish) > stampPrice) {
+		if (coinsInDish.sum() > stampPrice) {
 			return "That's a bit too much. Try removing some coins.";
 		}
 
@@ -98,10 +99,10 @@ function createComboState(stampPrice, validCoins, validStamp, nextState) {
 
 	state.stampPrice = stampPrice;
 	state.validationMethod = function() {
-		return getValueOfCoins(coinsInDish) == stampPrice;
+		return coinsInDish.sum() + stampsInDish.sum() == stampPrice;
 	}
 	state.rejectionMethod = function() {
-		if (getValueOfCoins(coinsInDish) > stampPrice) {
+		if (coinsInDish.sum() + stampsInDish.sum() > stampPrice) {
 			return "That's a bit too much. Try removing some coins.";
 		}
 
@@ -177,21 +178,23 @@ function refreshLayout() {
 }
 
 function refresh() {
+	var dishChanged = false;
+
 	var coins = getCoinsInDish();
-
 	if ((coins < coinsInDish) || (coins > coinsInDish)) {
-		var quantity = coins.length;
-		var value = getValueOfCoins(coins);
-
-		console.log(quantity + " coin" + (quantity != 1 ? "s" : "") + " in " +
-			"the dish for a total of " + value + " cents.");
-		console.log("You " + (canPurchaseStamp(currentStamp) ? "can" : "cannot") + 
-			" purchase the current stamp.");
-		console.log("Cost of current stamp: " + currentStamp.attr("data-cost") +
-			" cents.");
-
 		coinsInDish = coins;
 
+		dishChanged = true;
+	}
+
+	var stamps = getStampsInDish();
+	if ((stamps < stampsInDish) || (stamps > stampsInDish)) {
+		stampsInDish = stamps;
+
+		dishChanged = true;
+	}
+
+	if (dishChanged) {
 		if (currentState.validationMethod()) {
 			moveStampToWallet(currentStamp);
 
@@ -200,7 +203,7 @@ function refresh() {
 
 				currentState = currentState.nextState;
 
-				if (currentState.willBeginMethod) {
+				if (currentState && currentState.willBeginMethod) {
 					currentState.willBeginMethod();
 				}
 
@@ -277,6 +280,22 @@ function getCoinsInDish() {
 	return coins;
 }
 
+function getStampsInDish() {
+	var stamps = [];
+
+	$(".stamp").each(function(e) {
+		if (new $.rect($(this),{
+		    position: 'offset',
+		    dimension: 'outer',
+		    withMargin: true
+		}).intersects($("#dish"))) {
+			stamps.push(parseInt($(this).attr("data-cost")));
+		}
+	});
+
+	return stamps;
+}
+
 function getStampsInWallet() {
 	var stamps = [];
 
@@ -302,20 +321,6 @@ function canPurchaseStamp(stamp) {
 	return value == stamp.attr("data-cost");
 }
 
-function getValueOfCoins(coins) {
-	if (!coins) {
-		return 0;
-	}
-
-	var value = 0;
-
-	for (var i = 0; i < coins.length; i++) {
-		value += coins[i];
-	}
-
-	return value;
-}
-
 function moveStampToWallet(stamp) {
 	var bottomChildren = $("#bottom").children();
 	stamp.appendTo("#bottom").position({
@@ -339,30 +344,6 @@ function setCurrentStamp(stamp) {
 	});
 
 	currentStamp = stamp;
-}
-
-Array.prototype.list = function(elementPrinter) {
-	if (this.length == 0) {
-		return "no";
-	}
-
-	var printElement = elementPrinter ? elementPrinter : function(element) {
-		return element;
-	}
-
-	var string = "";
-
-	for (var i = 0; i < this.length; i++) {
-		if (i == this.length - 1) {
-			string += "and " + printElement(this[i]);
-		} else if (this.length > 2) {
-			string += printElement(this[i]) + ", ";
-		} else {
-			string += printElement(this[i]) + " ";
-		}
-	}
-
-	return string;
 }
 
 function paymentMethodAsString(includeCoins, includeStamps) {
@@ -450,4 +431,38 @@ function State() {
 	this.stampPrice = 0;
 
 	this.nextState = null;
+}
+
+Array.prototype.list = function(elementPrinter) {
+	if (this.length == 0) {
+		return "no";
+	}
+
+	var printElement = elementPrinter ? elementPrinter : function(element) {
+		return element;
+	}
+
+	var string = "";
+
+	for (var i = 0; i < this.length; i++) {
+		if (i == this.length - 1) {
+			string += "and " + printElement(this[i]);
+		} else if (this.length > 2) {
+			string += printElement(this[i]) + ", ";
+		} else {
+			string += printElement(this[i]) + " ";
+		}
+	}
+
+	return string;
+}
+
+Array.prototype.sum = function() {
+	var sum = 0;
+
+	for (var i = 0; i < this.length; i++) {
+		sum += this[i];
+	}
+
+	return sum;
 }
