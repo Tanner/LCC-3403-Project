@@ -15,11 +15,11 @@ $(document).on("ready", function(e) {
 });
 
 function initStates() {
-	var stateC = createCoinState(8, null);
-	var stateB = createCoinState(7, stateC);
-	var stateA = createCoinState(6, stateB);
+	var eightCentState = createCoinState(8, null);
+	var sevenCentState = createCoinState(7, eightCentState);
+	var sixCentState = createCoinState(6, sevenCentState);
 
-	currentState = stateA;
+	currentState = sixCentState;
 }
 
 function createCoinState(stampPrice, nextState) {
