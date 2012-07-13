@@ -65,8 +65,23 @@ function createCoinState(stampPrice, nextState) {
 		return coinsInDish.sum() == stampPrice;
 	}
 	state.rejectionMethod = function() {
-		if (coinsInDish.sum() > stampPrice) {
-			return "That's a bit too much. Try removing some coins.";
+		var dishCoinValue = coinsInDish.sum();
+		var dishStampValue = stampsInDish.sum();
+		
+		if (dishCoinValue + dishStampValue > stampPrice) {
+			var string = "That's a bit too much. Try removing some ";
+
+			if (dishStampValue > 0 && dishCoinValue > 0) {
+				string += "coins or stamps";
+			} else if (dishCoinValue > 0) {
+				string += "coins";
+			} else if (dishStampValue > 0) {
+				string += "stamps";
+			}
+
+			string += " from the dish.";
+
+			return string;
 		}
 
 		return null;
@@ -84,19 +99,6 @@ function createComboState(stampPrice, validCoins, validStamp, nextState) {
 
 	state.willBeginMethod = function() {
 		state.introMessage += paymentMethodAsString(true, true) + ".";
-
-		$("#bottom .stamp").draggable({
-			stack: ".stamp, .coin",
-			containment: "#main",
-			drag: function(event, ui) {
-				$(this).addClass("dragging");
-				$(this).addClass("dragged");
-			},
-			stop: function(event, ui) {
-				$(this).removeClass("dragging");
-				refresh();
-			}
-		});
 	}
 
 	state.validMessageTitle = "Good job!";
@@ -387,6 +389,19 @@ function moveStampToWallet(stamp) {
 		at: "right center",
 		offset: "20 0"
 	});
+
+	stamp.draggable({
+			stack: ".stamp, .coin",
+			containment: "#main",
+			drag: function(event, ui) {
+				$(this).addClass("dragging");
+				$(this).addClass("dragged");
+			},
+			stop: function(event, ui) {
+				$(this).removeClass("dragging");
+				refresh();
+			}
+		});
 }
 
 function moveStampsBackToWallet() {
