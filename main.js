@@ -11,7 +11,7 @@ const WELCOME_MESSAGE = "Use the items in your wallet to pay for the stamps.";
 const FINISH_MESSAGE_TITLE = "Hurrah!";
 const FINISH_MESSAGE = "You completed the game!<br/><br/>Hopefully you've" +
 	" have an idea of what Strong Induction is now.<br/><br/>Refresh to " +
-	" replay. Tap continue to watch an explanationa video.";
+	" replay. Tap continue to watch an explanation video.";
 
 const DIALOG_CLOSE_TEXT = "Continue"
 const DIALOG_MIN_WIDTH = 400;
