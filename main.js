@@ -71,6 +71,8 @@ function createCoinState(stampPrice, nextState) {
 function createComboState(stampPrice, validCoins, validStamp, nextState) {
 	var state = new State();
 
+	state.introMessageTitle = "Objective";
+
 	state.introMessage = "Pay for a " + stampPrice + " cent stamp using ";
 
 	state.willBeginMethod = function() {
