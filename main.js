@@ -1,7 +1,7 @@
 const COIN_PADDING = 20;
 
 const COIN_VALUES = [3, 4];
-const START_COIN_QUANTITY = 5;
+const START_COIN_QUANTITY = [6, 3];
 
 const REJECTION_MESSAGE_TITLE = "Hmmm&hellip;";
 
@@ -146,8 +146,12 @@ function createComboState(stampPrice, validCoins, validStamp, nextState) {
 }
 
 function initLayout() {
+	if (COIN_VALUES.length != START_COIN_QUANTITY.length) {
+		console.error("COIN_VALUES is not the same length as START_COIN_QUANTITY");
+	}
+
 	for (var i = 0; i < COIN_VALUES.length; i++) {
-		for (var j = 0; j < START_COIN_QUANTITY; j++) {
+		for (var j = 0; j < START_COIN_QUANTITY[i]; j++) {
 			var coin = createCoin(COIN_VALUES[i]);
 			var stack = $("#dish");
 
