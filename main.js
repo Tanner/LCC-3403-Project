@@ -62,11 +62,11 @@ function createCoinState(stampPrice, nextState) {
 
 	state.stampPrice = stampPrice;
 	state.validationMethod = function() {
-		return coinsInDish.sum() == stampPrice;
+		return getValueOfCoins(coinsInDish).sum() == stampPrice;
 	}
 	state.rejectionMethod = function() {
-		var dishCoinValue = coinsInDish.sum();
-		var dishStampValue = stampsInDish.sum();
+		var dishCoinValue = getValueOfCoins(coinsInDish).sum();
+		var dishStampValue = getValueOfStamps(stampsInDish).sum();
 
 		if (dishCoinValue + dishStampValue > stampPrice) {
 			var string = "That's a bit too much. Try removing some ";
@@ -107,15 +107,17 @@ function createComboState(stampPrice, validCoins, validStamp, nextState) {
 
 	state.stampPrice = stampPrice;
 	state.validationMethod = function() {
-		if (coinsInDish.sum() == stampPrice) {
+		var dishCoinValue = getValueOfCoins(coinsInDish).sum();
+
+		if (dishCoinValue == stampPrice) {
 			return false;
 		} else {
-			return coinsInDish.sum() + stampsInDish.sum() == stampPrice;
+			return dishCoinValue + getValueOfStamps(stampsInDish).sum() == stampPrice;
 		}
 	}
 	state.rejectionMethod = function() {
-		var dishCoinValue = coinsInDish.sum();
-		var dishStampValue = stampsInDish.sum();
+		var dishCoinValue = getValueOfCoins(coinsInDish).sum();
+		var dishStampValue = getValueOfStamps(stampsInDish).sum();
 
 		if (dishCoinValue == stampPrice) {
 			return "You don't want to use more coins than you have to." +
@@ -335,11 +337,21 @@ function getCoinsInDish() {
 		    dimension: 'outer',
 		    withMargin: true
 		}).intersects($("#dish"))) {
-			coins.push(parseInt($(this).attr("data-value")));
+			coins.push($(this));
 		}
 	});
 
 	return coins;
+}
+
+function getValueOfCoins(coins) {
+	var coinValues = [];
+
+	for (var i = 0; i < coins.length; i++) {
+		coinValues[i] = parseInt(coins[i].attr("data-value"));
+	}
+
+	return coinValues;
 }
 
 function getStampsInDish() {
@@ -351,11 +363,21 @@ function getStampsInDish() {
 		    dimension: 'outer',
 		    withMargin: true
 		}).intersects($("#dish"))) {
-			stamps.push(parseInt($(this).attr("data-cost")));
+			stamps.push($(this));
 		}
 	});
 
 	return stamps;
+}
+
+function getValueOfStamps(stamps) {
+	var stampValues = [];
+
+	for (var i = 0; i < stamps.length; i++) {
+		stampValues[i] = parseInt(stamps[i].attr("data-cost"));
+	}
+
+	return stampValues;
 }
 
 function getStampsInWallet() {
@@ -373,14 +395,9 @@ function canPurchaseStamp(stamp) {
 		return false;
 	}
 
-	var coins = getCoinsInDish();
+	var dishValue = getValueOfCoins(getCoinsInDish()).sum();
 
-	var value = 0;
-	for (var i = 0; i < coins.length; i++) {
-		value += coins[i];
-	}
-
-	return value == stamp.attr("data-cost");
+	return dishValue == stamp.attr("data-cost");
 }
 
 function moveStampToWallet(stamp) {
