@@ -240,6 +240,10 @@ function refresh() {
 
 	if (dishChanged) {
 		if (currentState.validationMethod()) {
+			for (var i = 0; i < coinsInDish.length; i++) {
+				coinsInDish[i].remove();
+			}
+
 			refreshLayout();
 
 			moveStampToWallet(currentStamp);
