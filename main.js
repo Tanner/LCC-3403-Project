@@ -225,20 +225,36 @@ function refresh() {
 	var dishChanged = false;
 
 	var coins = getCoinsInDish();
-	if ((coins < coinsInDish) || (coins > coinsInDish)) {
-		coinsInDish = coins;
 
+	if (coins.length != coinsInDish.length) {
 		dishChanged = true;
+	} else {
+		for (var i = 0; i < coins.length; i++) {
+			for (var j = 0; j < coinsInDish.length; j++) {
+				if (coins[i] !== coinsInDish[j]) {
+					dishChanged = true;
+				}
+			}
+		}
 	}
 
 	var stamps = getStampsInDish();
-	if ((stamps < stampsInDish) || (stamps > stampsInDish)) {
-		stampsInDish = stamps;
-
+	if (stamps.length != stampsInDish.length) {
 		dishChanged = true;
+	} else {
+		for (var i = 0; i < stamps.length; i++) {
+			for (var j = 0; j < stampsInDish.length; j++) {
+				if (stamps[i] !== stampsInDish[j]) {
+					dishChanged = true;
+				}
+			}
+		}
 	}
 
 	if (dishChanged) {
+		coinsInDish = coins;
+		stampsInDish = stamps;
+
 		if (currentState.validationMethod()) {
 			for (var i = 0; i < coinsInDish.length; i++) {
 				coinsInDish[i].remove();
