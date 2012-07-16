@@ -181,7 +181,7 @@ function initLayout() {
 	showTopCoinInStacks();
 
 	if (currentState) {
-		setCurrentStamp(createStamp(currentState.stampPrice, true));
+		setCurrentStamp(createStamp(currentState.stampPrice, false));
 	}
 
 	var welcomeDialog = showDialog(WELCOME_MESSAGE_TITLE, WELCOME_MESSAGE, true);
@@ -284,7 +284,7 @@ function refresh() {
 					if (currentState.willBeginMethod) {
 						currentState.willBeginMethod();
 					}
-					setCurrentStamp(createStamp(currentState.stampPrice, true));
+					setCurrentStamp(createStamp(currentState.stampPrice, false));
 
 					showDialog(currentState.introMessageTitle, currentState.introMessage, true);
 				} else {
@@ -322,7 +322,7 @@ function showFinish() {
 			var value = Math.floor(Math.random() * (STAMP_VALUE_MAX - STAMP_VALUE_MIN) + STAMP_VALUE_MIN);
 
 			var stampContainer = $("<div class=\"stamp-container\"></div>");
-			var stamp = createStamp(value, false);
+			var stamp = createStamp(value, true);
 
 			stamp.appendTo(stampContainer)
 			stampContainer.appendTo("#main").position({
@@ -616,7 +616,7 @@ function createCoin(value) {
 	return coin;
 }
 
-function createStamp(cost, limitColor) {
+function createStamp(cost, randomColor) {
 	var stamp = $("<div>", {
 		"class": "stamp",
 	});
@@ -629,10 +629,10 @@ function createStamp(cost, limitColor) {
 	var s = 100;
 	var l = 30;
 
-	if (limitColor) {
-		h = Math.pow(pow, cost % 3 + 6) % 360;
+	if (randomColor) {
+		h = Math.floor(Math.random() * 360);
 	} else {
-		h = Math.pow(pow, cost) % 360;
+		h = Math.pow(pow, cost % 3 + 6) % 360;
 	}
 
 	stamp.children().children("div").css("background", "hsl(" + h + ", " + s + "%, " + l + "%)");
