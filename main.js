@@ -324,7 +324,7 @@ function showFinish() {
 		const FINAL_SPIN_TIME = 250;
 
 		for (var value = LAST_STAMP_COST; value < LAST_STAMP_COST + NUM_STAMPS; value++) {
-			var stampContainer = $("<div class=\"stamp-container\"></div>");
+			var stampContainer = $("<div id=\"stamp-container\"></div>");
 			var stamp = createStamp(value, true);
 
 			stamp.appendTo(stampContainer)

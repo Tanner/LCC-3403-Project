@@ -129,7 +129,7 @@ body {
 	content: attr(data-value) "\a2";
 }
 
-.stamp-container {
+#stamp-container {
 	width: 80px;
 	height: 90px;
 }
