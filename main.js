@@ -18,6 +18,8 @@ const DIALOG_MIN_WIDTH = 400;
 
 const WALLET_LAST_COIN_STACK = "#bottom .stack#b";
 
+const LAST_STAMP_COST = 11;
+
 var currentState = null;
 var currentStamp = null;
 
@@ -306,6 +308,9 @@ function showFinish() {
 	var finishDialog = showDialog(FINISH_MESSAGE_TITLE, FINISH_MESSAGE, false);
 
 	finishDialog.bind("dialogopen", function(event, ui) {
+		$(".stamp").remove();
+		$(".coin").remove();
+
 		const NUM_STAMPS = 50;
 
 		const STAMP_VALUE_MAX = 50;
@@ -318,9 +323,7 @@ function showFinish() {
 
 		const FINAL_SPIN_TIME = 250;
 
-		for (var i = 0; i < NUM_STAMPS; i++) {
-			var value = Math.floor(Math.random() * (STAMP_VALUE_MAX - STAMP_VALUE_MIN) + STAMP_VALUE_MIN);
-
+		for (var value = LAST_STAMP_COST; value < LAST_STAMP_COST + NUM_STAMPS; value++) {
 			var stampContainer = $("<div class=\"stamp-container\"></div>");
 			var stamp = createStamp(value, true);
 
