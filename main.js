@@ -323,12 +323,14 @@ function showFinish() {
 
 		const FINAL_SPIN_TIME = 250;
 
+		var stampWorld = $("<div id=\"stampWorld\"></div>");
+		stampWorld.appendTo("#main");
 		for (var value = LAST_STAMP_COST; value < LAST_STAMP_COST + NUM_STAMPS; value++) {
 			var stampContainer = $("<div id=\"stamp-container\"></div>");
 			var stamp = createStamp(value, true);
 
 			stamp.appendTo(stampContainer)
-			stampContainer.appendTo("#main").position({
+			stampContainer.appendTo(stampWorld).position({
 				of: $(window),
 				my: "center center",
 				at: "center center",
@@ -359,18 +361,22 @@ function showFinish() {
 	finishDialog.dialog("open");
 
 	finishDialog.bind("dialogclose", function(event, ui) {
-		$("#main").transition({
-			perspective: "800px",
-			rotateY: "90deg"
-		}, 250, 'linear', function() {
-			$("#top").remove();
-			$("#bottom").remove();
+		$("#stampWorld").transition({
+				opacity: 0
+			}, 500, function() {
+				$("#main").transition({
+					perspective: "800px",
+					rotateY: "90deg"
+				}, 250, 'linear', function() {
+					$("#top").remove();
+					$("#bottom").remove();
 
-			$(this).transition({
-				perspective: "800px",
-				rotateY: "180deg"
-			}, 250, 'linear', function() {
-				$(this).css("-webkit-transform", "inherit");
+					$(this).transition({
+						perspective: "800px",
+						rotateY: "180deg"
+					}, 250, 'linear', function() {
+						$(this).css("-webkit-transform", "inherit");
+				});
 			});
 		});
 	});
