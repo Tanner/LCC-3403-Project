@@ -260,6 +260,10 @@ function refresh() {
 				coinsInDish[i].remove();
 			}
 
+			for (var i = 0; i < stampsInDish.length; i++) {
+				stampsInDish[i].remove();
+			}
+
 			refreshLayout();
 
 			moveStampToWallet(currentStamp);
