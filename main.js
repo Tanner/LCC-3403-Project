@@ -184,10 +184,10 @@ function initLayout() {
 		setCurrentStamp(createStamp(currentState.stampPrice));
 	}
 
-	var welcomeDialog = showDialog(WELCOME_MESSAGE_TITLE, WELCOME_MESSAGE);
+	var welcomeDialog = showDialog(WELCOME_MESSAGE_TITLE, WELCOME_MESSAGE, true);
 	welcomeDialog.on("dialogclose", function(event, ui) {
 		if (currentState) {
-			showDialog(currentState.introMessageTitle, currentState.introMessage);
+			showDialog(currentState.introMessageTitle, currentState.introMessage, true);
 		}
 	});
 }
@@ -276,7 +276,7 @@ function refresh() {
 
 			moveStampToWallet(currentStamp);
 
-			var validDialog = showDialog(currentState.validMessageTitle, currentState.validMessage);
+			var validDialog = showDialog(currentState.validMessageTitle, currentState.validMessage, true);
 			validDialog.bind("dialogclose", function(event, ui) {
 				currentState = currentState.nextState;
 
@@ -286,7 +286,7 @@ function refresh() {
 					}
 					setCurrentStamp(createStamp(currentState.stampPrice));
 
-					showDialog(currentState.introMessageTitle, currentState.introMessage);
+					showDialog(currentState.introMessageTitle, currentState.introMessage, true);
 				} else {
 					showFinish();
 				}
@@ -296,7 +296,7 @@ function refresh() {
 		if (currentState) {
 			var rejectMessage = currentState.rejectionMethod();
 			if (rejectMessage) {
-				showDialog(REJECTION_MESSAGE_TITLE, rejectMessage);
+				showDialog(REJECTION_MESSAGE_TITLE, rejectMessage, true);
 			}
 		}
 	}
