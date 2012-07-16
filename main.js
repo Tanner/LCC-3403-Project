@@ -180,11 +180,15 @@ function initLayout() {
 
 	showTopCoinInStacks();
 
-	setCurrentStamp(createStamp(currentState.stampPrice));
+	if (currentState) {
+		setCurrentStamp(createStamp(currentState.stampPrice));
+	}
 
 	var welcomeDialog = showDialog(WELCOME_MESSAGE_TITLE, WELCOME_MESSAGE);
 	welcomeDialog.on("dialogclose", function(event, ui) {
-		showDialog(currentState.introMessageTitle, currentState.introMessage);
+		if (currentState) {
+			showDialog(currentState.introMessageTitle, currentState.introMessage);
+		}
 	});
 }
 
@@ -222,6 +226,10 @@ function refreshLayout() {
 }
 
 function refresh() {
+	if (!currentState) {
+		showFinish();
+	}
+
 	var dishChanged = false;
 
 	var coins = getCoinsInDish();
@@ -255,7 +263,7 @@ function refresh() {
 		coinsInDish = coins;
 		stampsInDish = stamps;
 
-		if (currentState.validationMethod()) {
+		if (currentState && currentState.validationMethod()) {
 			for (var i = 0; i < coinsInDish.length; i++) {
 				coinsInDish[i].remove();
 			}
@@ -280,23 +288,7 @@ function refresh() {
 
 					showDialog(currentState.introMessageTitle, currentState.introMessage);
 				} else {
-					var finishDialog = showDialog(FINISH_MESSAGE_TITLE, FINISH_MESSAGE);
-					finishDialog.bind("dialogclose", function(event, ui) {
-						$("#main").transition({
-							perspective: "800px",
-							rotateY: "90deg"
-						}, 250, 'linear', function() {
-							$("#top").remove();
-							$("#bottom").remove();
-
-							$(this).transition({
-								perspective: "800px",
-								rotateY: "180deg"
-							}, 250, 'linear', function() {
-								$(this).css("-webkit-transform", "inherit");
-							});
-						});
-					});
+					showFinish();
 				}
 			});
 		}
@@ -310,10 +302,86 @@ function refresh() {
 	}
 }
 
-function showDialog(title, content) {
+function showFinish() {
+	var finishDialog = showDialog(FINISH_MESSAGE_TITLE, FINISH_MESSAGE, false);
+
+	finishDialog.bind("dialogopen", function(event, ui) {
+		const NUM_STAMPS = 50;
+
+		const STAMP_VALUE_MAX = 50;
+		const STAMP_VALUE_MIN = 5;
+
+		const MAX_ANIMATE_TIME = 3000;
+		const MIN_ANIMATE_TIME = 1500;
+
+		const MAX_SPINS = 5;
+
+		const FINAL_SPIN_TIME = 250;
+
+		for (var i = 0; i < NUM_STAMPS; i++) {
+			var value = Math.floor(Math.random() * (STAMP_VALUE_MAX - STAMP_VALUE_MIN) + STAMP_VALUE_MIN);
+
+			var stampContainer = $("<div class=\"stamp-container\"></div>");
+			var stamp = createStamp(value);
+
+			stamp.appendTo(stampContainer)
+			stampContainer.appendTo("#main").position({
+				of: $(window),
+				my: "center center",
+				at: "center center",
+				offset: "0 0"
+			});
+
+			makeStampDraggable(stamp);
+
+			var time = Math.random() * (MAX_ANIMATE_TIME - MIN_ANIMATE_TIME) + MIN_ANIMATE_TIME;
+
+			stamp.transition({
+				rotate: Math.random() * 360 * MAX_SPINS * 2 - 360 * MAX_SPINS,
+			}, time);
+			
+			const windowWidth = $(window).width();
+			const windowHeight = $(window).height();
+			
+			var x = Math.floor(Math.random() * windowWidth) - windowWidth / 2;
+			var y = Math.floor(Math.random() * windowHeight) - windowHeight / 2;
+
+			stampContainer.transition({
+				x: x,
+				y: y,
+			}, time - FINAL_SPIN_TIME);
+		}
+	});
+
+	finishDialog.dialog("open");
+
+	finishDialog.bind("dialogclose", function(event, ui) {
+		$("#main").transition({
+			perspective: "800px",
+			rotateY: "90deg"
+		}, 250, 'linear', function() {
+			$("#top").remove();
+			$("#bottom").remove();
+
+			$(this).transition({
+				perspective: "800px",
+				rotateY: "180deg"
+			}, 250, 'linear', function() {
+				$(this).css("-webkit-transform", "inherit");
+			});
+		});
+	});
+}
+
+function showDialog(title, content, autoOpen) {
+	if (!autoOpen) {
+		autoOpen = false;
+	}
+
 	var dialog = $("<div></div>").html(content).dialog({
 		title: title,
 		draggable: false,
+		autoOpen: autoOpen,
 		closeText: DIALOG_CLOSE_TEXT,
 		closeOnEscape: true,
 		minWidth: DIALOG_MIN_WIDTH,
@@ -437,18 +505,7 @@ function moveStampToWallet(stamp) {
 		offset: "20 0"
 	});
 
-	stamp.draggable({
-			stack: ".stamp, .coin",
-			containment: "#main",
-			drag: function(event, ui) {
-				$(this).addClass("dragging");
-				$(this).addClass("dragged");
-			},
-			stop: function(event, ui) {
-				$(this).removeClass("dragging");
-				refresh();
-			}
-		});
+	makeStampDraggable(stamp);
 }
 
 function moveStampsBackToWallet() {
@@ -483,6 +540,21 @@ function setCurrentStamp(stamp) {
 	})
 
 	currentStamp = stamp;
+}
+
+function makeStampDraggable(stamp) {
+	stamp.draggable({
+		stack: ".stamp, .coin",
+		containment: "#main",
+		drag: function(event, ui) {
+			$(this).addClass("dragging");
+			$(this).addClass("dragged");
+		},
+		stop: function(event, ui) {
+			$(this).removeClass("dragging");
+			refresh();
+		}
+	});
 }
 
 function paymentMethodAsString(includeCoins, includeStamps) {
