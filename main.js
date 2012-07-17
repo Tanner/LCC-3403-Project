@@ -51,7 +51,7 @@ function initStates() {
 	var sevenCentState = createCoinState(7, eightCentState);
 	var sixCentState = createCoinState(6, sevenCentState);
 
-	currentState = sixCentState;
+	currentState = null;
 }
 
 function createCoinState(stampPrice, nextState) {
@@ -357,22 +357,26 @@ function showFinish() {
 
 	finishDialog.dialog("open");
 
+	const fadeTime = 500;
+
 	finishDialog.bind("dialogclose", function(event, ui) {
 		$("#stampWorld").transition({
 				opacity: 0
-			}, 500, function() {
-				$("#main").transition({
-					perspective: "800px",
-					rotateY: "90deg"
-				}, 250, 'linear', function() {
-					$("#top").remove();
-					$("#bottom").remove();
+		}, fadeTime, function() {
+			$("#stampWorld").remove();
 
-					$(this).transition({
-						perspective: "800px",
-						rotateY: "180deg"
-					}, 250, 'linear', function() {
-						$(this).css("-webkit-transform", "inherit");
+			$("#main").transition({
+				opacity: 0
+			}, fadeTime, function() {
+				$("#top").remove();
+				$("#bottom").remove();
+
+				$("#main").css("display", "none");
+
+				$("video").transition({
+					opacity: 1
+				}, fadeTime, function() {
+					$("video").get(0).play();
 				});
 			});
 		});
