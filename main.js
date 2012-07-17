@@ -9,7 +9,8 @@ const WELCOME_MESSAGE_TITLE = "The Strong Induction Game";
 const WELCOME_MESSAGE = "Use the items in your wallet to pay for the stamps.";
 
 const FINISH_MESSAGE_TITLE = "Hurrah!";
-const FINISH_MESSAGE = "You completed the game!<br/><br/>Hopefully you've" +
+const FINISH_MESSAGE = "You completed the game!<br/><br/>This process of using" +
+	" stamps and coins to pay for stamps continues forever. Hopefully you've" +
 	" have an idea of what Strong Induction is now.<br/><br/>Refresh to " +
 	" replay. Tap continue to watch an explanation video.";
 
