@@ -373,6 +373,7 @@ function showFinish() {
 
 				$("#main").css("display", "none");
 
+				$("video").css("display", "block");
 				$("video").transition({
 					opacity: 1
 				}, fadeTime, function() {
