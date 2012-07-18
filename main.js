@@ -547,7 +547,7 @@ function setCurrentStamp(stamp) {
 
 	stamp.on("mousedown", function() {
 		showDialog("You can't take that!", "You have to pay for it first" +
-			" &mdash; that'll be " + stamp.attr("data-cost") + " cents.");
+			" &mdash; that'll be " + stamp.attr("data-cost") + " cents.", true);
 	})
 
 	currentStamp = stamp;
