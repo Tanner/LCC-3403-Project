@@ -125,6 +125,7 @@ p.footer {
 #dish {
 	position: absolute;
 	top: 20px;
+	left: 320px;
 	left: -webkit-calc(((940px - 300px) / 2));
 
 	width: 300px;
