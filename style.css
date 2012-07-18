@@ -7,8 +7,22 @@ body {
 	background: #ccc;
 
 	font-family: 'PT Sans Caption', sans-serif;
+	font-size: 14px;
 
 	-webkit-user-select: none;
+}
+
+p, li, code, blockquote {
+	padding: 0 0 15px 0;
+	display: block;
+}
+
+h1, h2, h3, h4 {
+	padding: 0 0 15px 0;
+}
+
+h1 {
+	font-size: 32px;
 }
 
 #wrapper {	
@@ -45,6 +59,10 @@ video {
 	margin: 0 auto;
 
 	border: 15px solid #fff;
+}
+
+p.footer {
+	margin-top: 10px;
 }
 
 .hidden {
@@ -276,6 +294,7 @@ video {
 	text-align: center;
 }
 
+.button,
 .ui-dialog-titlebar-close {
 	-moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
@@ -295,12 +314,18 @@ video {
 	padding:8px 12px;
 	text-decoration:none;
 	text-shadow:1px 1px 0px #1570cd;
-}.ui-dialog-titlebar-close:hover {
+}
+
+.button:hover,
+.ui-dialog-titlebar-close:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6) );
 	background:-moz-linear-gradient( center top, #1e62d0 5%, #3d94f6 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6');
 	background-color:#1e62d0;
-}.ui-dialog-titlebar-close:active {
+}
+
+.button:active,
+.ui-dialog-titlebar-close:active {
 	position:relative;
 	top:1px;
 }

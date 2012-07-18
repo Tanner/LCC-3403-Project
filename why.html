@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>How Strong Induction Relates to Computer Science</title>
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<style type="text/css">
+		.indent1 {
+			text-indent: 2em;
+		}
+		.indent2 {
+			text-indent: 4em;
+		}
+		#main {
+			text-align: left;
+			overflow: scroll;
+		}
+		.button-close {
+			position: absolute;
+			top: 15px;
+			right: 15px;
+		}
+	</style>
+</head>
+<body>
+	<a href="javascript: window.close();" class="button button-close">Close</a>
+
+	<div id="wrapper"><div id="main">
+		<h1>How Strong Induction Relates to Computer Science</h1>
+
+		<p>The goal of CS 2050 is get CS majors to think logically, which is a critical step to becoming a good programmer. With strong 	induction, there's a clear parallel with good program design. Take for example the problem of writing a function that returns the list 	of coins that are needed for a stamp price. Someone who originally is given this problem might not be used to thinking about tackling 	issues like this using code and data reusability. He/she may write the following function:</p>
+	
+		<code>
+		def coinsForPrice(price):<br>
+			<div class="indent1">if price is 12:</div>
+			<div class="indent2">return [4, 4, 4]</div>
+			<div class="indent1">if price is 13:</div>
+			<div class="indent2">return [4, 4, 5]</div>
+			<div class="indent1">if price is 14:</div>
+			<div class="indent2">return [4, 5, 5]</div>
+			<div class="indent1">if price is 15:</div>
+			<div class="indent2">return [5, 5, 5]</div>
+			<div class="indent1">if price is 16:</div>
+			<div class="indent2">return [4, 4, 4, 4]</div>
+			<div class="indent1">...</div>
+		</code>
+	
+		<p>The problem here is that there's no way to handle all the possible cases, because you can't possibly write out each individual case. 	Instead, the programmer needs to realize there is an elegant solution that handles all of the cases, turning cases into a constant 	formula that will work for all prices greater than 15.</p>
+	
+		<code>
+		def coinsForPrice(price):<br>
+			<div class="indent1">if price is 12:</div>
+			<div class="indent2">return [4, 4, 4]</div>
+			<div class="indent1">if price is 13:</div>
+			<div class="indent2">return [4, 4, 5]</div>
+			<div class="indent1">if price is 14:</div>
+			<div class="indent2">return [4, 5, 5]</div>
+			<div class="indent1">if price is 15:</div>
+			<div class="indent2">return [5, 5, 5]</div>
+			<div class="indent1">else if price >= 16:</div>
+			<div class="indent2">return coinsForPrice(price - 4) + [4]</div>
+		</code>
+	
+		<p>There are obvious parallels here between the parts of strong induction and the function above. Notice the basis step is essentially 	expressed with the first three conditions. The final condition is the recursive call that handles the rest of the cases we want to 	handle. Notice both of these are required in order for the function to work - the base cases are required.</p>
+	
+		<p>It's important to say that this function is not an example of representing strong induction in code. This is really an example of recursion, but with strong induction, we can actually prove that this function will work for all values of stamp prices greater and equal to 12. That is the key point.</p>
+	</div></div>
+</body>
+</html>

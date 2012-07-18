@@ -51,7 +51,7 @@ function initStates() {
 	var sevenCentState = createCoinState(7, eightCentState);
 	var sixCentState = createCoinState(6, sevenCentState);
 
-	currentState = sixCentState;
+	currentState = null;
 }
 
 function createCoinState(stampPrice, nextState) {
@@ -373,8 +373,8 @@ function showFinish() {
 
 				$("#main").css("display", "none");
 
-				$("video").css("display", "block");
-				$("video").transition({
+				$("#video").css("display", "block");
+				$("#video").transition({
 					opacity: 1
 				}, fadeTime, function() {
 					$("video").get(0).play();
