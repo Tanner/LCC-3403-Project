@@ -59,7 +59,10 @@ function createCoinState(stampPrice, nextState) {
 
 	state.introMessageTitle = "Objective";
 	state.introMessage = "Pay for a " + stampPrice + " cent stamp using ";
-	state.introMessage += paymentMethodAsString(true, false) + ".";
+	
+	state.willBeginMethod = function() {
+		state.introMessage += paymentMethodAsString(true, false) + ".";
+	}
 
 	state.validMessageTitle = "Good job!";
 	state.validMessage = "You got the coin amount correct.<br/><br/>A " +
@@ -183,15 +186,9 @@ function initLayout() {
 
 	showTopCoinInStacks();
 
-	if (currentState) {
-		setCurrentStamp(createStamp(currentState.stampPrice, false));
-	}
-
 	var welcomeDialog = showDialog(WELCOME_MESSAGE_TITLE, WELCOME_MESSAGE, true);
 	welcomeDialog.on("dialogclose", function(event, ui) {
-		if (currentState) {
-			showDialog(currentState.introMessageTitle, currentState.introMessage, true);
-		}
+		showState(currentState);
 	});
 }
 
@@ -279,16 +276,7 @@ function refresh() {
 			validDialog.bind("dialogclose", function(event, ui) {
 				currentState = currentState.nextState;
 
-				if (currentState) {
-					if (currentState.willBeginMethod) {
-						currentState.willBeginMethod();
-					}
-					setCurrentStamp(createStamp(currentState.stampPrice, false));
-
-					showDialog(currentState.introMessageTitle, currentState.introMessage, true);
-				} else {
-					showFinish();
-				}
+				showState(currentState);
 			});
 		}
 
@@ -384,6 +372,20 @@ function showFinish() {
 	});
 }
 
+function showState(state) {
+	if (state) {
+		if (state.willBeginMethod) {
+			state.willBeginMethod();
+		}
+
+		setCurrentStamp(createStamp(state.stampPrice, false));
+
+		showDialog(state.introMessageTitle, state.introMessage, true);
+	} else {
+		showFinish();
+	}
+}
+
 function showDialog(title, content, autoOpen) {
 	if (!autoOpen) {
 		autoOpen = false;
@@ -453,10 +455,24 @@ function getValueOfCoins(coins) {
 	var coinValues = [];
 
 	for (var i = 0; i < coins.length; i++) {
-		coinValues[i] = parseInt(coins[i].attr("data-value"));
+		coinValues[i] = getValueOfCoin(coins[i]);
 	}
 
 	return coinValues;
+}
+
+function getValueOfCoin(coin) {
+	return parseInt(coin.attr("data-value"));
+}
+
+function getCoinsInWallet() {
+	var coins = [];
+
+	$("#bottom .coin").each(function() {
+		coins.push($(this));
+	});
+
+	return coins;
 }
 
 function getStampsInDish() {
@@ -572,7 +588,28 @@ function paymentMethodAsString(includeCoins, includeStamps) {
 	var string = "";
 
 	if (includeCoins) {
-		string += COIN_VALUES.list() + " cent ";
+		var coins = [];
+
+		var walletCoins = getCoinsInWallet();
+		for (var i = 0; i < walletCoins.length; i++) {
+			var walletCoinValue = getValueOfCoin(walletCoins[i]);
+
+			var found = false;
+			for (var j = 0; j < coins.length; j++) {
+				if (walletCoinValue == coins[j]) {
+					found = true;
+					break;
+				}
+			}
+
+			if (found) {
+				continue;
+			} else {
+				coins.push(walletCoinValue);
+			}
+		}
+
+		string += coins.list() + " cent ";
 
 		if (COIN_VALUES.length > 1 || COIN_VALUES.length == 0) {
 			string += "coins";
