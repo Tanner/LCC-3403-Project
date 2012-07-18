@@ -51,7 +51,7 @@ function initStates() {
 	var sevenCentState = createCoinState(7, eightCentState);
 	var sixCentState = createCoinState(6, sevenCentState);
 
-	currentState = null;
+	currentState = sixCentState;
 }
 
 function createCoinState(stampPrice, nextState) {
